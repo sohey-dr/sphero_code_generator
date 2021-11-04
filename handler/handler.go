@@ -15,12 +15,12 @@ type FileDownloadRequest struct {
 }
 
 func FileDownloadHandler(c echo.Context) error {
-    var programs FileDownloadRequest
-    if err := c.Bind(&programs); err != nil {
+    var request FileDownloadRequest
+    if err := c.Bind(&request); err != nil {
         return c.JSON(http.StatusBadRequest, err.Error())
     }
 
-    err := service.GenerateCode()
+    err := service.GenerateCode(request.Programs)
     if err != nil {
         return err
     }
