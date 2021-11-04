@@ -1,4 +1,4 @@
-package sphero
+package service
 
 type Element string
 
