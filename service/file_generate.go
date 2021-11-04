@@ -7,23 +7,20 @@ import (
 )
 
 // GenerateCode generates the code for the Sphero
-func GenerateCode() error {
+func GenerateCode(programs []string) error {
     fileContent, err := getTemplate()
     if err != nil {
         log.Println("error:file\n",err)
         return err
     }
 
-    writeCode(fileContent)
+    writeCode(programs, fileContent)
 
     return nil
 }
 
-func writeCode(content []byte) error {
-    var appendContent string
-    for i := 0; i < 3; i++ {
-        appendContent += "    " + string(GO_FORWARD) + "\n"
-    }
+func writeCode(programs []string, content []byte) error {
+    appendContent := createAppendContent(programs)
 
     c := strings.Replace(string(content), "// appendContent", appendContent, -1)
     f, err := os.Create("sphero.ts")
@@ -37,6 +34,20 @@ func writeCode(content []byte) error {
     }
 
     return nil
+}
+
+func createAppendContent(programs []string) string {
+    var appendContent string
+    for _, program := range programs {
+        switch program {
+            case "前進":
+                appendContent += "    " + string(GO_FORWARD) + "\n"
+            case "後進":
+                appendContent += "    " + string(GO_BACKWARD) + "\n"
+        }
+    }
+
+    return appendContent
 }
 
 func getTemplate() ([]byte, error) {
