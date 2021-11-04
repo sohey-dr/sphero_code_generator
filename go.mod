@@ -9,5 +9,4 @@ require (
 	github.com/stretchr/testify v1.7.0
 	github.com/valyala/fasttemplate v1.2.1 // indirect
 	golang.org/x/crypto v0.0.0-20210921155107-089bfa567519 // indirect
-	golang.org/x/net v0.0.0-20210614182718-04defd469f4e // indirect
 )

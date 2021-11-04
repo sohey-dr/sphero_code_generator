@@ -4,13 +4,14 @@ import (
 	"io"
 	"net/http"
 	"net/url"
-    "sphero_code_generator/service"
+	"os"
+	"sphero_code_generator/service"
 
 	"github.com/labstack/echo"
 )
 
 func FileDownloadHandler(c echo.Context) error {
-    file, err := service.GenerateCode()
+    err := service.GenerateCode()
     if err != nil {
         return err
     }
@@ -22,6 +23,10 @@ func FileDownloadHandler(c echo.Context) error {
     encodeName := url.QueryEscape("sphero.ts")
     response.Header().Set(echo.HeaderContentDisposition, "attachment; filename="+encodeName)
     response.WriteHeader(200)
+    file, err := os.Open("sphero.ts")
+    if err != nil {
+        return err
+    }
     io.Copy(response.Writer, file)
 
     return c.NoContent(http.StatusOK)
