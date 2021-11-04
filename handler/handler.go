@@ -10,7 +10,16 @@ import (
 	"github.com/labstack/echo"
 )
 
+type FileDownloadRequest struct {
+    Programs []string `json:"programs"`
+}
+
 func FileDownloadHandler(c echo.Context) error {
+    var programs FileDownloadRequest
+    if err := c.Bind(&programs); err != nil {
+        return c.JSON(http.StatusBadRequest, err.Error())
+    }
+
     err := service.GenerateCode()
     if err != nil {
         return err

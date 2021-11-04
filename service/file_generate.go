@@ -24,7 +24,7 @@ func writeCode(content []byte) error {
     for i := 0; i < 3; i++ {
         appendContent += "    " + string(GO_FORWARD) + "\n"
     }
-    log.Println(appendContent)
+
     c := strings.Replace(string(content), "// appendContent", appendContent, -1)
     f, err := os.Create("sphero.ts")
     if err != nil {
