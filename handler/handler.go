@@ -11,7 +11,7 @@ import (
 
 func FileDownloadHandler(c echo.Context) error {
     fileName := "sphero_template.ts"
-    file, err := service.FileOpen(fileName)
+    file, err := service.GenerateCode(fileName)
     if err != nil {
         return err
     }
