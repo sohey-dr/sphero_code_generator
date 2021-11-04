@@ -44,6 +44,11 @@ func createAppendContent(programs []string) string {
                 appendContent += "    " + string(GO_FORWARD) + "\n"
             case "後進":
                 appendContent += "    " + string(GO_BACKWARD) + "\n"
+            case "右進":
+                appendContent += "    " + string(GO_RIGHT) + "\n"
+            case "左進":
+                appendContent += "    " + string(GO_LEFT) + "\n"
+
         }
     }
 
