@@ -11,7 +11,7 @@ import (
 )
 
 func FileDownloadHandler(c echo.Context) error {
-    fileName := "test.ts"
+    fileName := "sphero_template.ts"
     file, err := fileOpen(fileName)
     if err != nil {
         return err
@@ -23,12 +23,11 @@ func FileDownloadHandler(c echo.Context) error {
 }
 
 func fileOpen(fileName string) (*os.File, error) {
-    file, err := os.Open(fileName)
+    file, err := os.Open("./lib/" + fileName)
     if err != nil {
         log.Println("error:file\n",err)
         return nil, err
     }
-    defer file.Close()
 
     return file, nil
 }
