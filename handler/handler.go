@@ -10,8 +10,7 @@ import (
 )
 
 func FileDownloadHandler(c echo.Context) error {
-    fileName := "sphero_template.ts"
-    file, err := service.GenerateCode(fileName)
+    file, err := service.GenerateCode()
     if err != nil {
         return err
     }
@@ -20,7 +19,7 @@ func FileDownloadHandler(c echo.Context) error {
     response.Header().Set("Cache-Control", "no-store")
     response.Header().Set(echo.HeaderContentType, echo.MIMEOctetStream)
     response.Header().Set(echo.HeaderAccessControlExposeHeaders, "Content-Disposition")
-    encodeName := url.QueryEscape(fileName)
+    encodeName := url.QueryEscape("sphero.ts")
     response.Header().Set(echo.HeaderContentDisposition, "attachment; filename="+encodeName)
     response.WriteHeader(200)
     io.Copy(response.Writer, file)
