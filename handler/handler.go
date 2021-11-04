@@ -2,37 +2,20 @@ package handler
 
 import (
 	"io"
-	"log"
 	"net/http"
 	"net/url"
-	"os"
+    "sphero_code_generator/service"
 
 	"github.com/labstack/echo"
 )
 
 func FileDownloadHandler(c echo.Context) error {
     fileName := "sphero_template.ts"
-    file, err := fileOpen(fileName)
+    file, err := service.GenerateCode(fileName)
     if err != nil {
         return err
     }
 
-    setResponse(c, file, fileName)
-
-    return c.NoContent(http.StatusOK)
-}
-
-func fileOpen(fileName string) (*os.File, error) {
-    file, err := os.Open("./lib/" + fileName)
-    if err != nil {
-        log.Println("error:file\n",err)
-        return nil, err
-    }
-
-    return file, nil
-}
-
-func setResponse(c echo.Context, body io.Reader, fileName string) {
     response := c.Response()
     response.Header().Set("Cache-Control", "no-store")
     response.Header().Set(echo.HeaderContentType, echo.MIMEOctetStream)
@@ -40,6 +23,7 @@ func setResponse(c echo.Context, body io.Reader, fileName string) {
     encodeName := url.QueryEscape(fileName)
     response.Header().Set(echo.HeaderContentDisposition, "attachment; filename="+encodeName)
     response.WriteHeader(200)
-    io.Copy(response.Writer, body)
-    log.Println("response:", response)
+    io.Copy(response.Writer, file)
+
+    return c.NoContent(http.StatusOK)
 }
