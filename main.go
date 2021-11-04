@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -24,21 +23,30 @@ func initRouter() *echo.Echo {
         AllowHeaders: []string{echo.HeaderContentType},
         AllowMethods: []string{echo.POST},
     }))
-    e.POST("/sample", fileDownloadHandler)
+    e.POST("/", fileDownloadHandler)
     return e
 }
 
 func fileDownloadHandler(c echo.Context) error {
-    file, err := os.Open("./test.js")
-    defer file.Close()
+    file, err := fileOpen("test.ts")
     if err != nil {
-        fmt.Println("error:file\n",err)
-        return nil
+        return err
     }
 
     setResponse(c, file)
 
     return c.NoContent(http.StatusOK)
+}
+
+func fileOpen(fileName string) (*os.File, error) {
+    file, err := os.Open(fileName)
+    if err != nil {
+        log.Println("error:file\n",err)
+        return nil, err
+    }
+    defer file.Close()
+
+    return file, nil
 }
 
 func setResponse(c echo.Context, body io.Reader) {
