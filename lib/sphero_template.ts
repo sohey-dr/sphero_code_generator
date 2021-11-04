@@ -5,8 +5,7 @@ const run = async () => {
 
   if (!sphero) return console.log("sphero mini not available!");
 
-  // Write the code here!
-
+  // appendContent
 
 };
 
